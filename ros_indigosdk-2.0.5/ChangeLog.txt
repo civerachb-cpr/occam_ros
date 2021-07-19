@@ -1,0 +1,17 @@
+2.0.0
+	- Initial release.
+
+2.0.1
+	- Republish config after set_parameters is invoked.
+
+	- Publish PointCloud2 rather than PointCloud.
+
+	- Include timestamp and sequence numbers with point cloud messages.
+
+	- Publish CameraInfo message for each sensor.
+
+2.0.2 - 2.0.5
+	- Add imgproc, stitch, rectify, and cloud nodes to support reproducing
+	the Omni 60 and Omni Stereo pipelines offline from recorded data.
+
+	
