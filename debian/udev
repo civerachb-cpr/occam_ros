@@ -1,0 +1,2 @@
+# Occam Omni 60 Camera
+ATTRS{idVendor}=="285e", ATTRS{idProduct}=="3efd", GROUP="plugdev", MODE="0666", SYMLINK+="occam_omni" 

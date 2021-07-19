@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:macro name="omni_60" params="parent name='omni_60' *origin">
+    <!--
+      TODO: replace this cylinder with a nice mesh that looks more accurate
+      TODO: add links for each camera frame so we can tag the frame_id for each of the 5 image streams
+    -->
+    <link name="${name}_base_link">
+      <visual>
+        <geometry>
+          <cylinder radius="0.0525" length="0.07" />
+        </geometry>
+        <origin xyz="0 0 0.035" rpy="0 0 0" />
+        <material name="navy">
+          <color rgba="0 0 0.5 1" />
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder radius="0.0525" length="0.07" />
+        </geometry>
+        <origin xyz="0 0 ${0.0525/2}" rpy="0 0 0" />
+      </collision>
+    </link>
+    <joint name="${name}_base_joint" type="fixed">
+      <parent link="${parent}" />
+      <child link="${name}_base_link" />
+      <xacro:insert_block name="origin" />
+    </joint>
+  </xacro:macro>
+</robot>

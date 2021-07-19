@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+  <!--
+    TODO: add any additional args needed to customize the node
+  -->
+  <arg name="name" default="omni_60" />
+
+  <node pkg="occam_ros" type="occam_driver_node" name="$(arg name)_node">
+    <!--
+      TODO: add any parameters we need to pass to the driver node
+    -->
+  </node>
+</launch>

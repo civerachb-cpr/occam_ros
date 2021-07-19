@@ -23,7 +23,7 @@
 #include "indigo.h"
 
 static void reportError(int error_code) {
-  ROS_INFO("Occam API Error: %i", error_code);
+  ROS_ERROR("Occam API Error: %i", error_code);
   abort();
 }
 
@@ -237,7 +237,7 @@ public:
     pc2.width = pc0->point_count;
 
     unsigned point_step = 0;
-    
+
     sensor_msgs::PointField& fx = *pc2.fields.insert(pc2.fields.end(), sensor_msgs::PointField());
     fx.name = "x";
     fx.offset = point_step;
@@ -328,7 +328,7 @@ class OccamConfig {
       base_name = name;
       module_index = 0;
     }
-    
+
     for (int j=0;j<param_list->param_count;++j) {
       if (param_list->params[j].read_only)
 	continue;
@@ -342,7 +342,7 @@ class OccamConfig {
     return OccamParam(-1);
   }
 
-  bool setConfigCallback(dynamic_reconfigure::Reconfigure::Request& req, 
+  bool setConfigCallback(dynamic_reconfigure::Reconfigure::Request& req,
 			 dynamic_reconfigure::Reconfigure::Response& rsp) {
 
     for (dynamic_reconfigure::IntParameter& param : req.config.ints) {
@@ -362,7 +362,7 @@ class OccamConfig {
 
   void publishConfigDescription() {
     dynamic_reconfigure::ConfigDescription msg;
-    
+
     dynamic_reconfigure::Group& group = *msg.groups.emplace(msg.groups.end());
     group.name = "Default";
     group.type = "";
@@ -453,7 +453,7 @@ class OccamConfig {
 	  param.value = bool(value0);
 	}
       }
-      
+
     }
 
     descr_pub.publish(msg);
@@ -521,7 +521,7 @@ public:
   std::vector<std::shared_ptr<Publisher> > data_pubs;
   std::shared_ptr<OccamConfig> config;
   std::vector<ros::Publisher> camera_info_pubs;
-  
+
   OccamNode() :
     nh("~"),
     device(0) {
@@ -530,7 +530,10 @@ public:
 
     OccamDeviceList* device_list;
     OCCAM_CHECK(occamEnumerateDeviceList(2000, &device_list));
-    ROS_INFO("%i devices found", device_list->entry_count);
+    if (device_list->entry_count > 0)
+      ROS_INFO("%i devices found", device_list->entry_count);
+    else
+      ROS_ERROR("No compatible devices detected");
     int dev_index = 0;
     for (int i=0;i<device_list->entry_count;++i) {
       if (!cid.empty() && device_list->entries[i].cid == cid) {
@@ -541,7 +544,7 @@ public:
     if (dev_index<0 || dev_index >= device_list->entry_count)
       return;
     if (!cid.empty() && device_list->entries[dev_index].cid != cid) {
-      ROS_INFO("Requested cid %s not found",cid.c_str());
+      ROS_ERROR("Requested cid %s not found",cid.c_str());
       return;
     }
 
@@ -610,7 +613,7 @@ public:
     for (int j=0;j<reqs.size();++j)
       reqs_pubs[j]->publish(data[j], now);
     publishCameraInfo(now);
-    
+
     return true;
   }
 
@@ -647,7 +650,7 @@ private:
 
     int binning_mode = OCCAM_BINNING_DISABLED;
     occamGetDeviceValuei(device, OCCAM_BINNING_MODE, &binning_mode);
-    
+
     for (int j=0;j<sensor_count;++j) {
       double D[5], K[9], R[9], T[3];
 
@@ -665,10 +668,10 @@ private:
       ci.header.seq = header_seq++;
       ci.header.stamp = now;
       ci.header.frame_id = "occam";
-      
+
       ci.width = sensor_width;
       ci.height = sensor_height;
-      
+
       ci.distortion_model = "plumb_bob";
       ci.D.assign(D,D+5);
 
@@ -721,7 +724,7 @@ private:
       ci.roi.height = 0;
       ci.roi.width = 0;
       ci.roi.do_rectify = false;
-      
+
       camera_info_pubs[j].publish(ci);
     }
 
