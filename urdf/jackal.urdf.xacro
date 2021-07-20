@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+  <!--
+  This is an example file that can be used to attach the Omni-60 to a Clearpath Jackal's front mount
+  -->
+  <xacro:include filename="$(find occam_ros)/urdf/omni_60.urdf.xacro"/>
+  <xacro:omni_60 parent="front_mount">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:omni_60>
+</robot>

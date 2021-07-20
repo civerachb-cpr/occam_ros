@@ -59,6 +59,8 @@ A simple URDF macro is included for adding the camera to your existing robot mod
 </xacro:omni_60>
 ```
 
+![Omni 60 on Jackal](doc/omni_60-jackal.png)
+
 
 Future Work
 --------------
@@ -68,7 +70,7 @@ documentation, but it's not much right now.
 
 The to-do list includes:
 
-- improve the URDF macro so it's not just a cylinder
 - add (or document the existing) configuration options
 - document all published & subscribed topics
-- add links to the URDF for all cameras so we can tag the frame_id for each published image stream
+- double-check the order of the 5 cameras and match the URDF to that order
+- assign frame IDs to the raw data from each camera

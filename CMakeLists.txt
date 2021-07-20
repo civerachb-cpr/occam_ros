@@ -58,6 +58,6 @@ install(TARGETS occam_driver_node
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 )
 
-install(DIRECTORY launch urdf
+install(DIRECTORY launch meshes urdf
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
